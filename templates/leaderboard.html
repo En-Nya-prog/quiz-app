@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-8">
+    <h3 class="mb-4">🏆 Leaderboard</h3>
+    <div class="card p-3">
+      <table class="table table-dark table-hover mb-0">
+        <thead>
+          <tr><th>#</th><th>Player</th><th>Quizzes</th><th>Avg Score</th></tr>
+        </thead>
+        <tbody>
+          {% for row in board %}
+          <tr>
+            <td>
+              {% if loop.index == 1 %}🥇
+              {% elif loop.index == 2 %}🥈
+              {% elif loop.index == 3 %}🥉
+              {% else %}{{ loop.index }}{% endif %}
+            </td>
+            <td>{{ row.username }}</td>
+            <td>{{ row.total_quizzes }}</td>
+            <td>
+              {% set score = row.avg_score %}
+              <div class="d-flex align-items-center gap-2">
+                <div class="progress flex-grow-1" style="height:18px; background:#334155; max-width:150px;">
+                  <div class="progress-bar" style="width: 75px;"  aria-valuenow="{{ score }}" aria-valuemin="0" aria-valuemax="100"> </div>
+                       
+                  </div>
+                </div>
+                <span>{{ score }}%</span>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

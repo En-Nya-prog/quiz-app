@@ -1,0 +1,378 @@
+/* =====================
+   Global Reset & Base
+   ===================== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #0f172a;
+  color: #e2e8f0 !important;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  min-height: 100vh;
+}
+
+p, h1, h2, h3, h4, h5, h6,
+span, td, th, li, label,
+div, small, strong, em {
+  color: #e2e8f0;
+}
+
+a {
+  color: #818cf8;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #a5b4fc;
+  text-decoration: underline;
+}
+
+.text-muted {
+  color: #94a3b8 !important;
+}
+
+/* =====================
+   Navbar
+   ===================== */
+.navbar {
+  background: #1e293b !important;
+  border-bottom: 1px solid #334155;
+  padding: 12px 0;
+}
+
+.navbar-brand {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #a5b4fc !important;
+  letter-spacing: 1px;
+}
+
+.navbar .btn-outline-light {
+  border-color: #475569;
+  color: #cbd5e1 !important;
+  font-size: 0.85rem;
+}
+
+.navbar .btn-outline-light:hover {
+  background: #334155;
+  border-color: #6366f1;
+  color: #fff !important;
+}
+
+.navbar .btn-outline-danger {
+  font-size: 0.85rem;
+  color: #fca5a5 !important;
+}
+
+/* =====================
+   Cards
+   ===================== */
+.card {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+  color: #e2e8f0 !important;
+}
+
+.card * {
+  color: #e2e8f0 !important;
+}
+
+.card .text-muted {
+  color: #94a3b8 !important;
+}
+
+/* =====================
+   Buttons
+   ===================== */
+.btn-primary {
+  background: #6366f1;
+  border-color: #6366f1;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: #fff !important;
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  background: #4f46e5;
+  border-color: #4f46e5;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+  color: #fff !important;
+}
+
+.btn-outline-light {
+  color: #e2e8f0 !important;
+}
+
+.btn-outline-light:hover {
+  color: #fff !important;
+  transform: translateY(-1px);
+}
+
+.btn-outline-success { color: #6ee7b7 !important; border-color: #6ee7b7 !important; }
+.btn-outline-warning { color: #fde68a !important; border-color: #fde68a !important; }
+.btn-outline-danger  { color: #fca5a5 !important; border-color: #fca5a5 !important; }
+
+/* =====================
+   Forms
+   ===================== */
+.form-control,
+.form-select {
+  background: #0f172a !important;
+  color: #e2e8f0 !important;
+  border: 1px solid #475569 !important;
+  border-radius: 8px;
+  transition: border-color 0.2s;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: #6366f1 !important;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2) !important;
+  outline: none;
+  color: #e2e8f0 !important;
+}
+
+.form-control::placeholder {
+  color: #64748b !important;
+}
+
+.form-label {
+  color: #cbd5e1 !important;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 6px;
+}
+
+/* =====================
+   Difficulty Badges
+   ===================== */
+.badge-easy {
+  background: #10b981 !important;
+  color: #fff !important;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.badge-medium {
+  background: #f59e0b !important;
+  color: #fff !important;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.badge-hard {
+  background: #ef4444 !important;
+  color: #fff !important;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+/* =====================
+   Quiz Question Page
+   ===================== */
+.quiz-option {
+  cursor: pointer;
+  border: 1px solid #334155 !important;
+  border-radius: 10px;
+  padding: 14px 18px;
+  transition: all 0.2s ease;
+  display: block;
+  margin-bottom: 12px;
+  background: #0f172a;
+  color: #e2e8f0 !important;
+}
+
+.quiz-option:hover {
+  background: #334155 !important;
+  border-color: #6366f1 !important;
+  transform: translateX(4px);
+}
+
+.quiz-option input[type="radio"] {
+  accent-color: #6366f1;
+}
+
+/* =====================
+   Progress Bar
+   ===================== */
+.progress {
+  background: #334155;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  background: #6366f1;
+  border-radius: 10px;
+  transition: width 0.4s ease;
+}
+
+/* =====================
+   Results Page
+   ===================== */
+.result-score {
+  color: #6366f1 !important;
+  font-size: 4rem;
+  font-weight: 800;
+}
+
+/* =====================
+   Tables
+   ===================== */
+.table-dark {
+  background: transparent !important;
+}
+
+.table-dark td,
+.table-dark th {
+  border-color: #334155 !important;
+  color: #e2e8f0 !important;
+  vertical-align: middle;
+}
+
+.table-dark tbody tr:hover {
+  background: #334155 !important;
+}
+
+/* =====================
+   Flash Messages
+   ===================== */
+.alert {
+  border-radius: 10px;
+  border: none;
+  font-weight: 500;
+}
+
+.alert-success { background: #065f46; color: #6ee7b7 !important; }
+.alert-danger  { background: #7f1d1d; color: #fca5a5 !important; }
+.alert-warning { background: #78350f; color: #fde68a !important; }
+.alert-info    { background: #1e3a5f; color: #93c5fd !important; }
+
+/* =====================
+   Dashboard
+   ===================== */
+.start-card {
+  background: linear-gradient(135deg, #1e293b 0%, #1a1f35 100%);
+  border: 1px solid #4f46e5;
+}
+
+/* =====================
+   Admin Sidebar
+   ===================== */
+.sidebar {
+  background: #0f172a;
+  min-height: 100vh;
+  border-right: 1px solid #1e293b;
+  width: 220px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 20px 0;
+  z-index: 100;
+}
+
+.sidebar .brand {
+  padding: 0 20px 20px;
+  border-bottom: 1px solid #1e293b;
+  margin-bottom: 10px;
+}
+
+.sidebar .brand h5 {
+  color: #a5b4fc !important;
+  margin: 0;
+  font-weight: 700;
+}
+
+.sidebar .brand small {
+  color: #94a3b8 !important;
+}
+
+.sidebar a {
+  display: block;
+  padding: 10px 20px;
+  color: #cbd5e1 !important;
+  text-decoration: none;
+  transition: all 0.2s;
+  font-size: 0.9rem;
+}
+
+.sidebar a:hover,
+.sidebar a.active {
+  background: #1e293b;
+  color: #e2e8f0 !important;
+  border-left: 3px solid #6366f1;
+  text-decoration: none;
+}
+
+/* =====================
+   Admin Main Content
+   ===================== */
+.main-content {
+  margin-left: 220px;
+  padding: 30px;
+}
+
+.main-content * {
+  color: #e2e8f0;
+}
+
+.main-content .text-muted {
+  color: #94a3b8 !important;
+}
+
+.stat-card {
+  background: #0f172a;
+  border: 1px solid #1e293b;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.stat-card * {
+  color: #e2e8f0 !important;
+}
+
+.stat-number {
+  font-size: 2.5rem;
+  font-weight: 800;
+}
+
+.card-admin {
+  background: #0f172a;
+  border: 1px solid #1e293b;
+  border-radius: 12px;
+}
+
+.card-admin * {
+  color: #e2e8f0 !important;
+}
+
+.card-admin .text-muted {
+  color: #94a3b8 !important;
+}
+
+/* =====================
+   Responsive
+   ===================== */
+@media (max-width: 576px) {
+  .navbar-brand { font-size: 1.1rem; }
+  .result-score { font-size: 3rem; }
+  .card { padding: 1rem !important; }
+  .sidebar { width: 100%; min-height: auto; position: relative; }
+  .main-content { margin-left: 0; }
+}

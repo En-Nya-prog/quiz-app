@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center mt-5">
+  <div class="col-md-5">
+    <div class="card p-4 shadow">
+      <h3 class="text-center mb-4">Login</h3>
+      
+      <form method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+        <div class="mb-3">
+          <label class="form-label">Username</label>
+          <input type="text" name="username" class="form-control" required />
+        </div>
+        <div class="mb-3">
+          <div class="d-flex justify-content-between">
+            <label class="form-label">Password</label>
+            <a href="{{ url_for('auth.forgot_password') }}" class="small">Forgot password?</a>
+          </div>
+          <div class="input-group">
+            <input type="password" name="password" id="password" class="form-control" required />
+            <button type="button" class="btn btn-outline-secondary"
+                    onclick="togglePassword('password', this)"
+                    style="border-color:#475569; background:#1e293b; color:#94a3b8;">👁</button>
+          </div>
+        </div>
+        <button class="btn btn-primary w-100">Login</button>
+      </form>
+      <hr style="border-color:#334155; margin:20px 0;"/>
+      <p style="text-align:center; color:#94a3b8; font-size:0.9rem; margin-bottom:8px;">
+        Did not receive a verification email?
+      </p>
+      <form method="POST" action="{{ url_for('auth.resend_verification') }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+        <div class="input-group">
+          <input type="email" name="email" placeholder="Enter your email"
+                 class="form-control" required />
+          <button style="background:#334155; color:#e2e8f0; border:1px solid #475569;
+                         padding:0 16px; border-radius:0 6px 6px 0;">Resend</button>
+        </div>
+      </form>
+      <p class="text-center mt-3" style="color:#94a3b8;">
+        No account? <a href="{{ url_for('auth.register') }}">Register</a>
+      </p>
+    </div>
+  </div>
+</div>
+<script>
+  function togglePassword(fieldId, btn) {
+    const field = document.getElementById(fieldId);
+    if (field.type === "password") { field.type = "text"; btn.textContent = "🙈"; }
+    else { field.type = "password"; btn.textContent = "👁"; }
+  }
+</script>
+{% endblock %}

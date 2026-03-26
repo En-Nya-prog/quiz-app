@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card p-4">
+      <h4 class="mb-4">✏️ Edit Profile</h4>
+      <form method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+
+        <!-- Avatar Preview -->
+        <div class="text-center mb-4">
+          <div id="avatarPreview"
+               style="width:80px; height:80px; border-radius:50%; background:{{ current_user.avatar_color }};
+                      display:flex; align-items:center; justify-content:center;
+                      font-size:2rem; font-weight:700; color:#fff; margin:0 auto 10px;">
+            {{ current_user.username[0].upper() }}
+          </div>
+          <label class="form-label">Avatar Color</label>
+          <input type="color" name="avatar_color" value="{{ current_user.avatar_color }}"
+                 class="form-control form-control-color mx-auto"
+                 style="width:60px; height:40px; cursor:pointer;"
+                 oninput="document.getElementById('avatarPreview').style.background=this.value" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Username</label>
+          <input type="text" name="username" value="{{ current_user.username }}"
+                 class="form-control" required />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Bio</label>
+          <textarea name="bio" rows="3" placeholder="Tell us about yourself..."
+                    class="form-control">{{ current_user.bio }}</textarea>
+        </div>
+
+        <div class="d-flex gap-2">
+          <button class="btn btn-primary w-100">Save Changes</button>
+          <a href="{{ url_for('profile.profile') }}" class="btn btn-outline-light w-100">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

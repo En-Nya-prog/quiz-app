@@ -1,0 +1,39 @@
+{% extends "admin/base_admin.html" %}
+{% block content %}
+
+<h3 class="mb-4">📋 All Quizzes</h3>
+
+<div class="card-admin p-3">
+  <table class="table table-dark table-hover mb-0">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>User</th>
+        <th>Topic</th>
+        <th>Difficulty</th>
+        <th>Score</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for s in sessions %}
+      <tr>
+        <td>{{ s.id }}</td>
+        <td>{{ s.user.username }}</td>
+        <td>{{ s.topic }}</td>
+        <td><span class="badge badge-{{ s.difficulty }}">{{ s.difficulty }}</span></td>
+        <td>
+          {{ s.score }}/{{ s.total_q }}
+          <span class="text-muted">({{ s.percentage }}%)</span>
+        </td>
+        <td class="text-muted small">{{ s.started_at.strftime('%b %d, %Y %H:%M') }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% if not sessions %}
+    <p class="text-muted text-center p-3">No quizzes yet.</p>
+  {% endif %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-9">
+    <h3 class="mb-4">📋 Quiz History</h3>
+    {% if sessions %}
+    <div class="card p-3">
+      <table class="table table-dark table-hover mb-0">
+        <thead>
+          <tr><th>Topic</th><th>Difficulty</th><th>Score</th><th>Date</th></tr>
+        </thead>
+        <tbody>
+          {% for s in sessions %}
+          <tr>
+            <td>{{ s.topic }}</td>
+            <td><span class="badge badge-{{ s.difficulty }}">{{ s.difficulty }}</span></td>
+            <td>{{ s.score }}/{{ s.total_q }} ({{ s.percentage }}%)</td>
+            <td class="text-muted">{{ s.started_at.strftime('%b %d, %Y %H:%M') }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <div class="card p-4 text-center text-muted">No quizzes taken yet. <a href="{{ url_for('quiz.dashboard') }}">Start one!</a></div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

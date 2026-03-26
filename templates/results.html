@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-8">
+    <div class="card p-4 text-center mb-4">
+      <h2 class="mb-1">Quiz Complete! 🎉</h2>
+      <p class="text-muted">{{ quiz_session.topic }} — {{ quiz_session.difficulty }}</p>
+      <div class="display-1 fw-bold my-3" style="color:#6366f1">{{ quiz_session.percentage }}%</div>
+      <p class="fs-5">{{ quiz_session.score }} / {{ quiz_session.total_q }} correct</p>
+      <div class="d-flex justify-content-center gap-3 mt-3">
+        <a href="{{ url_for('quiz.dashboard') }}" class="btn btn-primary">New Quiz</a>
+        <a href="{{ url_for('leaderboard.leaderboard') }}" class="btn btn-outline-light">🏆 Leaderboard</a>
+      </div>
+    </div>
+
+    <h5 class="mb-3">Review Answers</h5>
+    {% for q in quiz_session.questions %}
+    <div class="card p-3 mb-3 border-{{ 'success' if q.is_correct else 'danger' }}">
+      <p class="fw-bold mb-2">{{ loop.index }}. {{ q.question_text }}</p>
+      <p class="mb-1">
+        Your answer: <span class="badge {{ 'bg-success' if q.is_correct else 'bg-danger' }}">{{ q.user_answer or '—' }}</span>
+        {% if not q.is_correct %}
+          &nbsp; Correct: <span class="badge bg-success">{{ q.correct_answer }}</span>
+        {% endif %}
+      </p>
+      {% if q.explanation %}
+      <p class="text-muted small mb-0"><em>{{ q.explanation }}</em></p>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

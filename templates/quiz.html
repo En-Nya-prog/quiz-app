@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-7">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <span class="text-muted">{{ topic }} — <span class="badge badge-{{ difficulty }}">{{ difficulty }}</span></span>
+      <span class="badge bg-secondary fs-6">Q {{ q_number }} / {{ total }}</span>
+    </div>
+
+    <!-- Progress bar -->
+    {% set pct = (q_number / total * 100)|int %}
+    <div class="progress mb-4" style="height:8px; background:#334155;">
+      <div class="progress-bar"
+           role="progressbar"
+           style="width:{{ pct }}%; background:#6366f1;"
+           aria-valuenow="{{ pct }}"
+           aria-valuemin="0"
+           aria-valuemax="100">
+      </div>
+    </div>
+
+    <div class="card p-4 shadow">
+      <h5 class="mb-4">{{ question.question_text }}</h5>
+
+      <form method="POST" action="{{ url_for('quiz.answer') }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+        {% for letter, text in [('A', question.option_a), ('B', question.option_b),
+                                 ('C', question.option_c), ('D', question.option_d)] %}
+        <label class="d-block mb-3 p-3 rounded border border-secondary"
+               style="cursor:pointer; transition: background 0.2s;"
+               onmouseover="this.style.background='#334155'" onmouseout="this.style.background='transparent'">
+          <input type="radio" name="answer" value="{{ letter }}" class="me-2" required />
+          <strong>{{ letter }}.</strong> {{ text }}
+        </label>
+        {% endfor %}
+
+        <button class="btn btn-primary w-100 mt-2">
+          {% if q_number == total %}Finish Quiz{% else %}Next Question →{% endif %}
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

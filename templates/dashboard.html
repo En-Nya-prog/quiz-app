@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-7">
+
+    <!-- Personalized Greeting -->
+    {% set stats = current_user.get_stats() %}
+    <div class="card p-4 mb-4 start-card">
+      <div class="d-flex align-items-center gap-3">
+        <div style="width:55px; height:55px; border-radius:50%; background:{{ current_user.avatar_color }};
+                    display:flex; align-items:center; justify-content:center;
+                    font-size:1.5rem; font-weight:700; color:#fff; flex-shrink:0;">
+          {{ current_user.username[0].upper() }}
+        </div>
+        <div>
+          <h4 class="mb-0">Welcome, {{ current_user.username }}! 👋</h4>
+          {% if stats.total_quizzes == 0 %}
+            <p class="text-muted mb-0">Ready to take your first quiz? Let's go! 🚀</p>
+          {% elif stats.avg_score >= 80 %}
+            <p class="text-muted mb-0">You're on fire! 🔥 Avg score: {{ stats.avg_score }}%</p>
+          {% elif stats.avg_score >= 50 %}
+            <p class="text-muted mb-0">Keep it up! 💪 Avg score: {{ stats.avg_score }}%</p>
+          {% else %}
+            <p class="text-muted mb-0">Practice makes perfect! 📚 Avg score: {{ stats.avg_score }}%</p>
+          {% endif %}
+        </div>
+        <a href="{{ url_for('profile.profile') }}" class="btn btn-outline-light btn-sm ms-auto">My Profile</a>
+      </div>
+    </div>
+
+    <!-- Quick Stats -->
+    {% if stats.total_quizzes > 0 %}
+    <div class="row g-3 mb-4">
+      <div class="col-4">
+        <div class="card p-3 text-center">
+          <div style="font-size:1.8rem; font-weight:800; color:#6366f1;">{{ stats.total_quizzes }}</div>
+          <div class="text-muted small">Quizzes</div>
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="card p-3 text-center">
+          <div style="font-size:1.8rem; font-weight:800; color:#10b981;">{{ stats.best_score }}%</div>
+          <div class="text-muted small">Best Score</div>
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="card p-3 text-center">
+          <div style="font-size:1.8rem; font-weight:800; color:#f59e0b;">{{ stats.avg_score }}%</div>
+          <div class="text-muted small">Avg Score</div>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- Favourite Topics Quick Launch -->
+    {% set fav_topics = current_user.get_fav_topics() %}
+    {% if fav_topics %}
+    <div class="card p-3 mb-4">
+      <p class="text-muted small mb-2">⭐ Quick Start — Your Favourite Topics:</p>
+      <div class="d-flex flex-wrap gap-2">
+        {% for topic in fav_topics %}
+        <form method="POST" action="{{ url_for('quiz.start') }}">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+          <input type="hidden" name="topic" value="{{ topic }}" />
+          <input type="hidden" name="difficulty" value="medium" />
+          <input type="hidden" name="num_questions" value="5" />
+          <button class="btn btn-sm" style="background:#334155; color:#e2e8f0; border-radius:20px;">
+            {{ topic }}
+          </button>
+        </form>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- Start Quiz Form -->
+    <div class="card p-4 mb-4">
+      <h5 class="mb-3">🚀 Start a New Quiz</h5>
+      <form method="POST" action="{{ url_for('quiz.start') }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+        <div class="mb-3">
+          <label class="form-label">Topic</label>
+          <input type="text" name="topic"
+                 placeholder="e.g. Python, World History, Biology..."
+                 class="form-control" required />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Difficulty</label>
+          <select name="difficulty" class="form-select">
+            <option value="easy">🟢 Easy</option>
+            <option value="medium" selected>🟡 Medium</option>
+            <option value="hard">🔴 Hard</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Number of Questions</label>
+          <select name="num_questions" class="form-select">
+            <option value="5">5 Questions</option>
+            <option value="10">10 Questions</option>
+            <option value="15">15 Questions</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary w-100 py-2">
+          ✨ Generate Quiz with AI
+        </button>
+      </form>
+    </div>
+
+    <!-- Recent Quizzes -->
+    {% if recent %}
+    <div class="card p-4">
+      <h5 class="mb-3">📋 Recent Quizzes</h5>
+      <table class="table table-dark table-hover mb-0">
+        <thead>
+          <tr><th>Topic</th><th>Difficulty</th><th>Score</th></tr>
+        </thead>
+        <tbody>
+          {% for s in recent %}
+          <tr>
+            <td>{{ s.topic }}</td>
+            <td><span class="badge badge-{{ s.difficulty }}">{{ s.difficulty }}</span></td>
+            <td>{{ s.score }}/{{ s.total_q }} ({{ s.percentage }}%)</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <div class="card p-4 text-center text-muted">
+      No quizzes yet — generate your first one above! 🎯
+    </div>
+    {% endif %}
+
+  </div>
+</div>
+{% endblock %}
