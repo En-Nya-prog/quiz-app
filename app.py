@@ -34,7 +34,10 @@ def create_app():
     app.register_blueprint(admin_bp)
 
     with app.app_context():
-        db.create_all()
+        try:
+            db.create_all()
+        except Exception as e:
+            print(f"Warning: Could not create tables: {e}")
 
     @app.route("/")
     def index():
