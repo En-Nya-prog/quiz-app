@@ -1,13 +1,27 @@
-from flask_mail import Message
-from extensions import mail
+import os
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
+
+
+def _send(to_email, subject, html_content):
+    message = Mail(
+        from_email=os.environ.get('MAIL_DEFAULT_SENDER'),
+        to_emails=to_email,
+        subject=subject,
+        html_content=html_content
+    )
+    try:
+        sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
+        sg.send(message)
+    except Exception as e:
+        print(f"EMAIL FAILED: {e}")
 
 
 def send_welcome_email(user, verify_url):
-    msg = Message(
+    _send(
+        to_email=user.email,
         subject="Verify your Enock Nyame Quiz account",
-        recipients=[user.email]
-    )
-    msg.html = f"""
+        html_content=f"""
     <div style="font-family:Segoe UI,sans-serif; background:#0f172a; padding:40px; color:#e2e8f0;">
       <div style="max-width:520px; margin:0 auto; background:#1e293b; border-radius:12px; padding:32px;">
         <h2 style="color:#a5b4fc;">Welcome to Enock Nyame's Quiz, {user.username}! 🧠</h2>
@@ -25,15 +39,14 @@ def send_welcome_email(user, verify_url):
       </div>
     </div>
     """
-    mail.send(msg)
+    )
 
 
 def send_password_reset_email(user, reset_url):
-    msg = Message(
+    _send(
+        to_email=user.email,
         subject="Reset your Enock Nyame Quiz password",
-        recipients=[user.email]
-    )
-    msg.html = f"""
+        html_content=f"""
     <div style="font-family:Segoe UI,sans-serif; background:#0f172a; padding:40px; color:#e2e8f0;">
       <div style="max-width:520px; margin:0 auto; background:#1e293b; border-radius:12px; padding:32px;">
         <h2 style="color:#a5b4fc;">Password Reset Request 🔑</h2>
@@ -51,15 +64,14 @@ def send_password_reset_email(user, reset_url):
       </div>
     </div>
     """
-    mail.send(msg)
+    )
 
 
 def send_ban_email(user):
-    msg = Message(
+    _send(
+        to_email=user.email,
         subject="Enock Nyame Quiz — Account Suspended",
-        recipients=[user.email]
-    )
-    msg.html = f"""
+        html_content=f"""
     <div style="font-family:Segoe UI,sans-serif; background:#0f172a; padding:40px; color:#e2e8f0;">
       <div style="max-width:520px; margin:0 auto; background:#1e293b; border-radius:12px; padding:32px;">
         <h2 style="color:#ef4444;">Account Suspended ⚠️</h2>
@@ -68,4 +80,4 @@ def send_ban_email(user):
       </div>
     </div>
     """
-    mail.send(msg)
+    )
