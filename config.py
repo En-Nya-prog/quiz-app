@@ -5,9 +5,10 @@ load_dotenv()
 def get_db_url():
     url = os.environ.get("MYSQL_PUBLIC_URL", "")
     if url:
-        # Replace mysql:// with mysql+pymysql://
         if url.startswith("mysql://"):
             url = "mysql+pymysql://" + url[len("mysql://"):]
+        elif not url.startswith("mysql+pymysql://"):
+            url = "mysql+pymysql://" + url
         return url
     # Fallback for local development
     host     = os.environ.get("MYSQL_HOST", "localhost")
@@ -24,6 +25,7 @@ class Config:
 
     SQLALCHEMY_DATABASE_URI = get_db_url()
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SQLALCHEMY_ENGINE_OPTIONS = {"pool_pre_ping": True}
 
     ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY")
 
