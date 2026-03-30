@@ -10,7 +10,6 @@ def get_db_url():
         elif not url.startswith("mysql+pymysql://"):
             url = "mysql+pymysql://" + url
         return url
-    # Fallback for local development
     host     = os.environ.get("MYSQL_HOST", "localhost")
     user     = os.environ.get("MYSQL_USER", "root")
     password = os.environ.get("MYSQL_PASSWORD", "")
