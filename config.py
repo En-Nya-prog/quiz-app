@@ -2,15 +2,27 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 
+def get_db_url():
+    url = os.environ.get("MYSQL_PUBLIC_URL", "")
+    if url:
+        # Replace mysql:// with mysql+pymysql://
+        if url.startswith("mysql://"):
+            url = "mysql+pymysql://" + url[len("mysql://"):]
+        return url
+    # Fallback for local development
+    host     = os.environ.get("MYSQL_HOST", "localhost")
+    user     = os.environ.get("MYSQL_USER", "root")
+    password = os.environ.get("MYSQL_PASSWORD", "")
+    db       = os.environ.get("MYSQL_DB", "gaming_app_db")
+    port     = os.environ.get("MYSQL_PORT", "3306")
+    return f"mysql+pymysql://{user}:{password}@{host}:{port}/{db}"
+
 class Config:
     SECRET_KEY = os.environ.get("SECRET_KEY", "fallback-change-this")
     WTF_CSRF_ENABLED = True
     WTF_CSRF_TIME_LIMIT = 3600
 
-    SQLALCHEMY_DATABASE_URI = os.environ.get(
-        "MYSQL_PUBLIC_URL",
-        "mysql+pymysql://root@localhost/gaming_app_db"
-    ).replace("mysql://", "mysql+pymysql://")
+    SQLALCHEMY_DATABASE_URI = get_db_url()
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY")
